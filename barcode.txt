@@ -1,0 +1,53 @@
+
+//pip install opencv-python pyzbar
+import cv2
+from pyzbar.pyzbar import decode
+
+class QRCodeScanner:
+    def __init__(self):
+        self.cap = cv2.VideoCapture(0)  # 打开默认摄像头
+
+    def scan_qrcode(self):
+        """
+        实时扫描二维码
+        """
+        while True:
+            # 从摄像头读取帧
+            ret, frame = self.cap.read()
+            if not ret:
+                print("无法访问摄像头")
+                break
+            
+            # 解码二维码
+            decoded_objects = decode(frame)
+            for obj in decoded_objects:
+                # 绘制二维码的边框
+                points = obj.polygon
+                if len(points) == 4:
+                    pts = [tuple(pt) for pt in points]
+                    cv2.polylines(frame, [np.array(pts, dtype=np.int32)], True, (0, 255, 0), 3)
+                else:
+                    cv2.rectangle(frame, (obj.rect.left, obj.rect.top), 
+                                  (obj.rect.left + obj.rect.width, obj.rect.top + obj.rect.height), 
+                                  (0, 255, 0), 3)
+                
+                # 解码二维码内容
+                qr_data = obj.data.decode('utf-8')
+                print(f"扫描到二维码: {qr_data}")
+                cv2.putText(frame, qr_data, (obj.rect.left, obj.rect.top - 10), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            
+            # 显示图像
+            cv2.imshow("二维码扫描仪", frame)
+
+            # 按 'q' 键退出
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        
+        # 释放摄像头和关闭窗口
+        self.cap.release()
+        cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    scanner = QRCodeScanner()
+    scanner.scan_qrcode()

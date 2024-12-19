@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民意调查</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .options {
+            margin-bottom: 20px;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>民意调查</h1>
+        <div id="survey">
+            <div class="question">
+                <p>你喜欢哪种类型的电影？</p>
+                <div class="options">
+                    <label><input type="radio" name="movieType" value="动作"> 动作</label>
+                    <label><input type="radio" name="movieType" value="喜剧"> 喜剧</label>
+                    <label><input type="radio" name="movieType" value="科幻"> 科幻</label>
+                    <label><input type="radio" name="movieType" value="恐怖"> 恐怖</label>
+                </div>
+                <p>你一般多久去一次电影院？</p>
+                <div class="options">
+                    <label><input type="radio" name="movieType" value="一周一次"> 一周一次</label>
+                    <label><input type="radio" name="movieType" value="一个月一次"> 一个月一次</label>
+                    <label><input type="radio" name="movieType" value="半年一次"> 半年一次</label>
+                    <label><input type="radio" name="movieType" value="一年一次"> 一年一次</label>
+                </div>
+            </div>
+            <button class="submit-btn" onclick="submitSurvey()">提交调查</button>
+        </div>
+
+        <div id="result" class="result">
+            <h2>感谢参与调查！</h2>
+            <p>您选择的电影类型是：<span id="chosenOption"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function submitSurvey() {
+            const selectedOption = document.querySelector('input[name="movieType"]:checked');
+
+            if (selectedOption) {
+                document.getElementById('survey').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('chosenOption').textContent = selectedOption.value;
+            } else {
+                alert('请先选择一个选项！');
+            }
+        }
+    </script>
+
+</body>
+</html>
